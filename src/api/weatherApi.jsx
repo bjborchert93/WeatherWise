@@ -1,14 +1,15 @@
 import axios from 'axios';
 
 const weatherApi = axios.create({
-  baseURL: 'http://localhost:8000',
+  baseURL: 'http://localhost:8000/weather',
 })
 
-export const getWeather = async ( coords ) => {
+export const getWeather = async ( coords, units ) => {
   console.log(coords)
-  const response = await weatherApi.get('/weather', {
+  const response = await weatherApi.get('/current', {
     params: {
-      coords: JSON.stringify(coords)
+      coords: JSON.stringify(coords),
+      units: JSON.stringify(units)
     }
   })
   return response.data
