@@ -1,3 +1,4 @@
+import { Box, Card, Paper } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faCloud, faCloudSun, faCloudShowersHeavy, faSnowflake, faMoon, faCloudMoon, faCloudMoonRain, faBolt, faWind } from '@fortawesome/free-solid-svg-icons';
 
@@ -26,7 +27,11 @@ function WeatherIcon({ icon, size }) {
 
   const selectedIcon = iconMap[icon];
 
-  return <FontAwesomeIcon icon={selectedIcon} size={size} />;
+  return (
+    <Box>
+      <FontAwesomeIcon icon={selectedIcon} size={`${size}x`} />
+    </Box>
+  )
 }
 
 export default WeatherIcon;

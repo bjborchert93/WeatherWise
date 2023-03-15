@@ -6,6 +6,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import SettingsIcon from '@mui/icons-material/Settings'
+import AccessTime from '@mui/icons-material/AccessTime';
 
 import { useTheme } from '@mui/material/styles';
 
@@ -25,8 +26,9 @@ const DrawerLinks = styled('div')(({ theme }) => ({
 }));
 
 const menuItems = [
-	{ text: 'Current Conditions', icon: <WbSunnyIcon />, link: '/dash/current' },
-	{ text: 'Forecast', icon: <CalendarMonthIcon />, link: 'dash/forecast' },
+	{ text: 'Current', icon: <WbSunnyIcon />, link: '/dash/current' },
+	{ text: 'Hourly', icon: <AccessTime />, link: 'dash/hourly' },
+	{ text: '8-Day Forecast', icon: <CalendarMonthIcon />, link: 'dash/forecast' },
 	{ text: 'Settings', icon: <SettingsIcon />, link: 'dash/settings' }
 ]
 
@@ -40,7 +42,7 @@ const NavBar = () => {
 
 	return (
 		<>
-			<AppBar position="static">
+			<AppBar position="fixed">
 				<Toolbar>
 					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
 						WeatherWise

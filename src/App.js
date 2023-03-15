@@ -10,6 +10,7 @@ import { lightTheme, darkTheme } from './theme/Theme';
 import Layout from './components/Layout/Layout';
 import CurrentWeather from './features/weather/CurrentWeather';
 import Welcome from './Welcome';
+import WeatherHome from './features/weather/WeatherHome';
 
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -22,7 +23,7 @@ function App() {
         <Route path='/' element={<Layout />} >
           <Route path='/dash' element={<DashLayout />} >
             <Route index element={<Welcome />} />
-            <Route path='/dash/current' element={<CurrentWeather />} />
+            <Route path='/dash/current' element={<WeatherHome />} />
           </Route>
         </Route>
       </Routes>

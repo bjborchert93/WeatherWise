@@ -1,15 +1,15 @@
 import { Outlet } from 'react-router-dom'
-// import DashHeader from './DashHeader'
 import NavBar from './NavBar'
 import DashFooter from './DashFooter'
+import { Box } from '@mui/material/'
 
 const DashLayout = () => {
     return (
         <>
             <NavBar />
-            <div className="dash-container">
+            <Box className="dash-container">
                 <Outlet />
-            </div>
+            </Box>
             <DashFooter />
         </>
     )
