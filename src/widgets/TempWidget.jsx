@@ -23,7 +23,7 @@ const TempWidget = ({ weather }) => {
       }}
     >
       <Typography variant='subtitle2'>
-        H {Math.round(weather.daily[0].temp.max)}° | L {Math.round(weather.daily[0].temp.min)}°
+        H:{Math.round(weather.daily[0].temp.max)}° | L:{Math.round(weather.daily[0].temp.min)}°
       </Typography>
       <Typography variant='h2' align='center'>
         {Math.round(weather.current.temp)}°

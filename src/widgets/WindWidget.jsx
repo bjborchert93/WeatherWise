@@ -28,9 +28,13 @@ const WindWidget = ({ weather }) => {
         borderRadius: '50%'
       }}
     >
-      <Typography variant='subtitle1'>{directions[index]} | {Math.round(weather.current.wind_speed)}mph</Typography>
+      <Typography variant='subtitle1'>
+        {directions[index]} | {Math.round(weather.current.wind_speed)}mph
+      </Typography>
       <FontAwesomeIcon icon={faLocationArrow} style={iconStyle} size='2x' />
-      <Typography variant='subtitle2'>Gusts {Math.round(weather.daily[0]?.wind_gust)}mph</Typography>
+      <Typography variant='subtitle2' fontStyle='italic'>
+        Gusts {Math.round(weather.daily[0]?.wind_gust)}mph
+      </Typography>
     </Box>
   )
 }

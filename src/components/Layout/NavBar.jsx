@@ -47,8 +47,7 @@ const NavBar = () => {
 					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
 						WeatherWise
 					</Typography>
-					<NavLinks>
-
+					{/* <NavLinks>
 						<List sx={{ display: 'flex' }}>
 							{menuItems.map((item, key) => (
 								<ListItemButton component={Link} to={item.link}>
@@ -56,7 +55,7 @@ const NavBar = () => {
 								</ListItemButton>
 							))}
 						</List>
-					</NavLinks>
+					</NavLinks> */}
 					<IconButton
 						size="large"
 						edge="end"
@@ -69,7 +68,7 @@ const NavBar = () => {
 					</IconButton>
 				</Toolbar>
 			</AppBar>
-			<Drawer anchor="right" open={isDrawerOpen} onClose={toggleDrawer}>
+			{/* <Drawer anchor="right" open={isDrawerOpen} onClose={toggleDrawer}>
 				<DrawerLinks>
 					<List>
 						{menuItems.map((item, key) => (
@@ -82,7 +81,7 @@ const NavBar = () => {
 						))}
 					</List>
 				</DrawerLinks>
-			</Drawer>
+			</Drawer> */}
 		</>
 	);
 };

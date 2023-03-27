@@ -11,6 +11,7 @@ const WeatherConditionsWidget = ({ weather }) => {
       sx={{
         height: '9rem',
         width: '9rem',
+        px: 2,
         py: 5,
         my: 2,
         display: 'flex',

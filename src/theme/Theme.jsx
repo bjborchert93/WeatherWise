@@ -10,7 +10,8 @@ export const lightTheme = createTheme({
       main: '#f50057',
     },
     background: {
-      default: colors.grey[100],
+      default: `linear-gradient(45deg, ${colors.lightBlue[100]}, ${colors.lightBlue[300]}`,
+      // default: colors.grey[100],
       paper: colors.common.white,
     },
   },
@@ -20,22 +21,6 @@ export const lightTheme = createTheme({
     fontWeightRegular: 400,
     fontWeightMedium: 500,
   },
-  // overrides: {
-  //   MuiButton: {
-  //     containedPrimary: {
-  //       color: colors.common.white,
-  //     },
-  //     outlinedPrimary: {
-  //       color: '#3f51b5',
-  //     },
-  //   },
-  //   MuiAppBar: {
-  //     colorPrimary: {
-  //       backgroundColor: colors.common.white,
-  //       color: colors.grey[800],
-  //     },
-  //   },
-  // },
 });
 
 
@@ -62,20 +47,4 @@ export const darkTheme = createTheme({
     fontWeightRegular: 400,
     fontWeightMedium: 500,
   },
-  // overrides: {
-  //   MuiButton: {
-  //     containedPrimary: {
-  //       color: colors.common.white,
-  //     },
-  //     outlinedPrimary: {
-  //       color: '#3f51b5',
-  //     },
-  //   },
-  //   MuiAppBar: {
-  //     colorPrimary: {
-  //       backgroundColor: colors.grey[800],
-  //       color: colors.common.white,
-  //     },
-  //   },
-  // },
 });

@@ -7,7 +7,9 @@ import { Box, Grid } from '@mui/material';
 
 import CurrentWeather from './CurrentWeather';
 import ForecastByDay from './ForecastByDay';
-import MinutelyPrecipWidget from '../../widgets/MinutelyForecastWidget';
+import HourlyChart from './HourlyChart';
+import AlertsWidget from '../../widgets/AlertsWidget';
+import HourlyDetails from './HourlyDetails';
 
 const WeatherHome = () => {
   const coords = useGeolocation();
@@ -41,17 +43,21 @@ const WeatherHome = () => {
   return (
     <>
       {!isLoading && weather
-        ? <Grid container spacing={2}>
+        ? <Grid container>
+          <Grid item sm={12}>
+            <AlertsWidget weather={weather} />
+          </Grid>
           <Grid item sm={12} md={5}>
             <CurrentWeather weather={weather} location={location} />
           </Grid>
           <Grid item sm={12} md={7}>
-            <Box sx={{ width: '100%', height: '100%' }}>
-              <MinutelyPrecipWidget weather={weather} />
-            </Box>
+            <HourlyChart weather={weather} />
           </Grid>
-          <Grid item sm={12} >
-            <ForecastByDay dailyForecast={weather} />
+          <Grid item sm={12}>
+            <HourlyDetails weather={weather} />
+          </Grid>
+          <Grid item sm={12}>
+            <ForecastByDay weather={weather} />
           </Grid>
         </Grid>
         :

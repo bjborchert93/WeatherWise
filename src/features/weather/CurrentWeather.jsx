@@ -8,12 +8,10 @@ import TempWidget from '../../widgets/TempWidget';
 import WeatherConditionsWidget from '../../widgets/WeatherConditionsWidget';
 import numeral from 'numeral';
 import { format } from 'date-fns';
-import AlertsWidget from '../../widgets/AlertsWidget';
-import MinutelyPrecipWidget from '../../widgets/MinutelyForecastWidget';
+import HourlyChart from './HourlyChart';
 
 const CurrentWeather = ({ weather, location }) => {
   const theme = useTheme();
-
   const distanceInMeters = (meters) => {
     if (meters >= 1000) {
       const kilometers = meters / 1000;
@@ -29,7 +27,6 @@ const CurrentWeather = ({ weather, location }) => {
     <>
       {weather &&
         <Box sx={{ p: 2 }}>
-          <AlertsWidget weather={weather} />
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 2 }}>
             <Typography variant='h5' color={theme.palette.primary.main}>
               {location.name}, {location.country}

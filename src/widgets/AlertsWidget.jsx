@@ -12,7 +12,7 @@ const AlertsWidget = ({ weather }) => {
     content = null;
   } else {
     content = (
-      <Box component={Paper} elevation={6} sx={{ mb: 2}}>
+      <Box component={Paper} elevation={6} sx={{ m: 2 }}>
         {weather.alerts?.map((alert, index) => (
           <Accordion key={index}>
             <AccordionSummary
@@ -20,7 +20,7 @@ const AlertsWidget = ({ weather }) => {
               sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
             >
               <WarningIcon color={theme.palette.error.main} sx={{ mr: 1 }} />
-              <Typography variant='subtitle1' color={theme.palette.error.main}>
+              <Typography variant='h6' fontWeight={600} color={theme.palette.error.main}>
                 Alert! - {alert.event}
               </Typography>
             </AccordionSummary>
