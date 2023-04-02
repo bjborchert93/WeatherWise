@@ -18,6 +18,7 @@ import { Box, Paper, Typography } from '@mui/material';
 import WeatherIcon from './icons/WeatherIcon';
 import numeral from 'numeral';
 import { useUnits } from '../../context/UnitsContext';
+import { useWeatherData } from '../../context/WeatherDataContext';
 
 ChartJS.register(
   LinearScale,
@@ -32,10 +33,12 @@ ChartJS.register(
   BarController,
 );
 
-const HourlyChart = ({ weather }) => {
+const HourlyChart = () => {
   const [data, setData] = useState(null);
   const theme = useTheme();
   const { units } = useUnits();
+  const { weatherData } = useWeatherData();
+  const weather = weatherData.weather;
 
   const options = {
     responsive: true,

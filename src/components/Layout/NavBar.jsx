@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
+import { getWeatherByLocationName, getWeatherByCoords } from '../../api/weatherApi';
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -8,8 +10,11 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import AccessTime from '@mui/icons-material/AccessTime';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import { useUnits } from '../../context/UnitsContext';
+import { useGeolocation } from '../../context/GeolocationContext';
+import { useWeatherData } from '../../context/WeatherDataContext';
 import {
 	AppBar,
+	Box,
 	Drawer,
 	FormControl,
 	Typography,
@@ -23,6 +28,7 @@ import {
 	MenuItem,
 	Select,
 	TextField,
+	Button,
 } from '@mui/material';
 
 import { useTheme } from '@mui/material/styles';
@@ -49,20 +55,50 @@ const menuItems = [
 	{ text: 'Settings', icon: <SettingsIcon />, link: 'dash/settings' }
 ]
 
-const handleGetCoords = () => {
-	localStorage.removeItem('coords');
-}
-
 const NavBar = () => {
+	const { setWeatherData } = useWeatherData();
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+	const [searchCriteria, setSearchCriteria] = useState('');
+	const [locationName, setLocationName] = useState('');
+	const [method, setMethod] = useState('locationName');
+	const coords = useGeolocation();
+
 	const theme = useTheme();
 	const { units, toggleUnits } = useUnits();
 
-	console.log(units)
+	const { isLoading, isError, error, data } = useQuery({
+		queryKey: ['weatherData', { method, locationName, units }],
+		queryFn: () => {
+			if (method === 'locationName') {
+				console.log('gonna search by location name')
+				return getWeatherByLocationName(locationName, units);
+			} else {
+				return getWeatherByCoords(coords, units);
+			}
+		},
+		staleTime: 60 * 1000 * 5,
+		refetchOnWindowFocus: false,
+	});
+
+	useEffect(() => {
+		setWeatherData(data);
+	},[data])
 
 	const toggleDrawer = () => {
 		setIsDrawerOpen(!isDrawerOpen);
 	};
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		setMethod('locationName');
+		setLocationName(searchCriteria);
+		console.log(locationName);
+	}
+
+	const handleGetCoords = () => {
+		localStorage.removeItem('coords');
+		setMethod('coords');
+	}
 
 	return (
 		<>
@@ -71,29 +107,48 @@ const NavBar = () => {
 					<Typography variant="h6" component="div" sx={{ flexGrow: 1, mr: 3 }}>
 						WeatherWise
 					</Typography>
-					<TextField
-						name='search'
-						label='Search Locations...'
-						variant='outlined'
-						// fullWidth
-						size='small'
-					/>
+					<Box
+						component='form'
+						onSubmit={handleSubmit}
+						sx={{
+							display: 'flex',
+							justifyContent: 'space-around',
+							alignItems: 'center',
+							gap: 1
+						}}
+					>
+						<TextField
+							name='search'
+							label='Location Search'
+							variant='outlined'
+							size='small'
+							placeholder='Search Locations...'
+							onChange={(e) => setSearchCriteria(e.target.value)}
+							value={searchCriteria}
+						/>
+						<Button
+							variant='outlined'
+							type='submit'
+							color='secondary'
+						>
+							Go
+						</Button>
+					</Box>
 					<IconButton
 						sx={{ mx: 1 }}
 						onClick={handleGetCoords}
-						
 					>
 						<MyLocationIcon color='secondary' />
 					</IconButton>
 					<NavLinks>
 						<List sx={{ display: 'flex' }}>
-						{menuItems.map((item, key) => (
-							<ListItemButton component={Link} to={item.link}>
-							<ListItemText>{item.text}</ListItemText>
-							</ListItemButton>
+							{menuItems.map((item, key) => (
+								<ListItemButton component={Link} to={item.link} key={key}>
+									<ListItemText>{item.text}</ListItemText>
+								</ListItemButton>
 							))}
-							</List>
-						</NavLinks>
+						</List>
+					</NavLinks>
 					<IconButton
 						size="large"
 						edge="end"
@@ -121,7 +176,7 @@ const NavBar = () => {
 				<DrawerLinks>
 					<List>
 						{menuItems.map((item, key) => (
-							<ListItemButton component={Link} to={item.link}>
+							<ListItemButton component={Link} to={item.link} key={key}>
 								<ListItemIcon>
 									{item.icon}
 								</ListItemIcon>

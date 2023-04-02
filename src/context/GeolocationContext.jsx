@@ -8,7 +8,7 @@ export const GeolocationProvider = ({ children }) => {
     return storedCoords ? JSON.parse(storedCoords) : null;
   });
 
-  useEffect(() => {
+  const updateCoords = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -26,6 +26,10 @@ export const GeolocationProvider = ({ children }) => {
     } else {
       console.error('Geolocation is not supported by this browser.');
     }
+  }
+
+  useEffect(() => {
+    updateCoords();
   }, [])
 
   return (

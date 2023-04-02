@@ -3,9 +3,12 @@ import WarningIcon from '@mui/icons-material/Warning';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useTheme } from '@mui/material/styles';
 import { format } from 'date-fns';
+import { useWeatherData } from '../context/WeatherDataContext';
 
-const AlertsWidget = ({ weather }) => {
+const AlertsWidget = () => {
   const theme = useTheme();
+  const { weatherData } = useWeatherData();
+  const weather = weatherData.weather;
 
   let content
   if (!weather.alerts) {

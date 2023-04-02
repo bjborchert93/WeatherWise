@@ -8,10 +8,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDroplet, faSnowflake, faGauge } from '@fortawesome/free-solid-svg-icons';
 import numeral from 'numeral';
 import { useUnits } from '../../context/UnitsContext';
+import { useWeatherData } from '../../context/WeatherDataContext';
 
-const ForecastByDay = ({ weather }) => {
+const ForecastByDay = () => {
   const theme = useTheme();
   const { units } = useUnits();
+  const { weatherData } = useWeatherData();
+  const weather = weatherData.weather;
 
   return (
     <Box sx={{ p: 2, width: '100%' }}>

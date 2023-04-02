@@ -18,10 +18,13 @@ import WeatherIcon from './icons/WeatherIcon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDroplet, faSnowflake } from '@fortawesome/free-solid-svg-icons';
 import { useUnits } from '../../context/UnitsContext';
+import { useWeatherData } from '../../context/WeatherDataContext';
 
-const HourlyDetails = ({ weather }) => {
+const HourlyDetails = () => {
   const isMobile = useMediaQuery('(max-width:600px)');
   const { units } = useUnits();
+  const { weatherData } = useWeatherData();
+  const weather = weatherData.weather;
 
   const MobileList = () => {
     return (

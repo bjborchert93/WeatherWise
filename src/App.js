@@ -12,6 +12,7 @@ import CurrentWeather from './features/weather/CurrentWeather';
 import Welcome from './Welcome';
 import WeatherHome from './features/weather/WeatherHome';
 import { UnitsProvider } from './context/UnitsContext';
+import { WeatherDataProvider } from './context/WeatherDataContext';
 
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -19,17 +20,19 @@ function App() {
 
   return (
     <UnitsProvider>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Routes>
-          <Route path='/' element={<Layout />} >
-            <Route path='/dash' element={<DashLayout />} >
-              <Route index element={<Welcome />} />
-              <Route path='/dash/current' element={<WeatherHome />} />
+      <WeatherDataProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Routes>
+            <Route path='/' element={<Layout />} >
+              <Route path='/dash' element={<DashLayout />} >
+                <Route index element={<Welcome />} />
+                <Route path='/dash/current' element={<WeatherHome />} />
+              </Route>
             </Route>
-          </Route>
-        </Routes>
-      </ThemeProvider>
+          </Routes>
+        </ThemeProvider>
+      </WeatherDataProvider>
     </UnitsProvider>
   );
 }

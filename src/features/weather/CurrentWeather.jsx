@@ -10,8 +10,12 @@ import numeral from 'numeral';
 import { format } from 'date-fns';
 import HourlyChart from './HourlyChart';
 import { useUnits } from '../../context/UnitsContext';
+import { useWeatherData } from '../../context/WeatherDataContext';
 
-const CurrentWeather = ({ weather, location }) => {
+const CurrentWeather = () => {
+  const { weatherData } = useWeatherData();
+  const location = weatherData.location[0];
+  const weather = weatherData.weather;
   const theme = useTheme();
   const distanceInMeters = (meters) => {
     if (meters >= 1000) {
@@ -27,7 +31,7 @@ const CurrentWeather = ({ weather, location }) => {
 
   return (
     <>
-      {weather &&
+      {weatherData &&
         <Box sx={{ p: 2 }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 2 }}>
             <Typography variant='h5' color={theme.palette.primary.main}>
