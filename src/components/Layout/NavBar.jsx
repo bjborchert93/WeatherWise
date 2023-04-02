@@ -1,12 +1,29 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
-import { AppBar, Drawer, Typography, Toolbar, IconButton, List, ListItemText, ListItemButton, ListItemIcon } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import SettingsIcon from '@mui/icons-material/Settings'
 import AccessTime from '@mui/icons-material/AccessTime';
+import MyLocationIcon from '@mui/icons-material/MyLocation';
+import { useUnits } from '../../context/UnitsContext';
+import {
+	AppBar,
+	Drawer,
+	FormControl,
+	Typography,
+	Toolbar,
+	IconButton,
+	InputLabel,
+	List,
+	ListItemText,
+	ListItemButton,
+	ListItemIcon,
+	MenuItem,
+	Select,
+	TextField,
+} from '@mui/material';
 
 import { useTheme } from '@mui/material/styles';
 
@@ -32,10 +49,17 @@ const menuItems = [
 	{ text: 'Settings', icon: <SettingsIcon />, link: 'dash/settings' }
 ]
 
+const handleGetCoords = () => {
+	localStorage.removeItem('coords');
+}
+
 const NavBar = () => {
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	const theme = useTheme();
-	
+	const { units, toggleUnits } = useUnits();
+
+	console.log(units)
+
 	const toggleDrawer = () => {
 		setIsDrawerOpen(!isDrawerOpen);
 	};
@@ -44,18 +68,32 @@ const NavBar = () => {
 		<>
 			<AppBar position="fixed">
 				<Toolbar>
-					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+					<Typography variant="h6" component="div" sx={{ flexGrow: 1, mr: 3 }}>
 						WeatherWise
 					</Typography>
-					{/* <NavLinks>
+					<TextField
+						name='search'
+						label='Search Locations...'
+						variant='outlined'
+						// fullWidth
+						size='small'
+					/>
+					<IconButton
+						sx={{ mx: 1 }}
+						onClick={handleGetCoords}
+						
+					>
+						<MyLocationIcon color='secondary' />
+					</IconButton>
+					<NavLinks>
 						<List sx={{ display: 'flex' }}>
-							{menuItems.map((item, key) => (
-								<ListItemButton component={Link} to={item.link}>
-									<ListItemText>{item.text}</ListItemText>
-								</ListItemButton>
+						{menuItems.map((item, key) => (
+							<ListItemButton component={Link} to={item.link}>
+							<ListItemText>{item.text}</ListItemText>
+							</ListItemButton>
 							))}
-						</List>
-					</NavLinks> */}
+							</List>
+						</NavLinks>
 					<IconButton
 						size="large"
 						edge="end"
@@ -66,9 +104,20 @@ const NavBar = () => {
 					>
 						<MenuIcon />
 					</IconButton>
+					<FormControl size='small'>
+						<InputLabel>Units</InputLabel>
+						<Select
+							value={units.type}
+							onChange={toggleUnits}
+							variant='outlined'
+						>
+							<MenuItem value='imperial'>Imperial (°F / mph)</MenuItem>
+							<MenuItem value='metric'>Metric (°C / m/s)</MenuItem>
+						</Select>
+					</FormControl>
 				</Toolbar>
 			</AppBar>
-			{/* <Drawer anchor="right" open={isDrawerOpen} onClose={toggleDrawer}>
+			<Drawer anchor="right" open={isDrawerOpen} onClose={toggleDrawer}>
 				<DrawerLinks>
 					<List>
 						{menuItems.map((item, key) => (
@@ -81,7 +130,7 @@ const NavBar = () => {
 						))}
 					</List>
 				</DrawerLinks>
-			</Drawer> */}
+			</Drawer>
 		</>
 	);
 };

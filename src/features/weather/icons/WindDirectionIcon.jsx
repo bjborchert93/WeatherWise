@@ -1,8 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationArrow } from '@fortawesome/free-solid-svg-icons';
 import { Box, Typography } from '@mui/material';
+import { useUnits } from '../../../context/UnitsContext';
 
 const WindDirectionIcon = ({ degree, size, speed }) => {
+  const { units } = useUnits();
   const iconStyle = {
     transform: `rotate(${degree - 45}deg)`,
   };
@@ -14,7 +16,7 @@ const WindDirectionIcon = ({ degree, size, speed }) => {
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: 1 }}>
         <FontAwesomeIcon icon={faLocationArrow} style={iconStyle} size={`${size}x`} />
         <Typography variant='subtitle1'>
-          {directions[index]} | {Math.floor(speed)} mph
+          {directions[index]} | {Math.floor(speed)} {units.wind}
         </Typography>
       </Box>
     </Box>

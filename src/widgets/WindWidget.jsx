@@ -2,9 +2,11 @@ import { Box, Paper, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationArrow } from '@fortawesome/free-solid-svg-icons';
+import { useUnits } from '../context/UnitsContext';
 
 const WindWidget = ({ weather }) => {
   const theme = useTheme();
+  const { units } = useUnits();
   const degree = weather.current.wind_deg;
   const iconStyle = { transform: `rotate(${degree - 45 - 180}deg)` }
   const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
@@ -29,11 +31,11 @@ const WindWidget = ({ weather }) => {
       }}
     >
       <Typography variant='subtitle1'>
-        {directions[index]} | {Math.round(weather.current.wind_speed)}mph
+        {directions[index]} | {Math.round(weather.current.wind_speed) + units.wind}
       </Typography>
       <FontAwesomeIcon icon={faLocationArrow} style={iconStyle} size='2x' />
       <Typography variant='subtitle2' fontStyle='italic'>
-        Gusts {Math.round(weather.daily[0]?.wind_gust)}mph
+        Gusts {Math.round(weather.daily[0]?.wind_gust) + units.wind}
       </Typography>
     </Box>
   )

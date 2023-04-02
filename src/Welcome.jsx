@@ -3,7 +3,6 @@ import { useGeolocation } from './context/GeolocationContext'
 
 const Welcome = () => {
   const coords = useGeolocation();
-  console.log(coords);
   return (
     <>
       {!coords

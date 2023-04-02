@@ -4,9 +4,9 @@ const weatherApi = axios.create({
   baseURL: 'http://localhost:8000/weather',
 })
 
-export const getWeather = async ( coords, units ) => {
-  console.log(coords)
-  const response = await weatherApi.get('/current', {
+export const getWeatherByCoords = async (coords, units) => {
+  console.log(coords, units)
+  const response = await weatherApi.get('/', {
     params: {
       coords: JSON.stringify(coords),
       units: JSON.stringify(units)

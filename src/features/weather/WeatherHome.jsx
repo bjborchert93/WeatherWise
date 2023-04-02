@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
-import { getWeather } from '../../api/weatherApi';
+import { getWeatherByCoords } from '../../api/weatherApi';
 import { useGeolocation } from '../../context/GeolocationContext';
+import { useUnits } from '../../context/UnitsContext';
 
 import { Box, Grid } from '@mui/material';
 
@@ -15,13 +16,14 @@ const WeatherHome = () => {
   const coords = useGeolocation();
   const [weather, setWeather] = useState(null);
   const [location, setLocation] = useState(null);
+  const { units } = useUnits();
 
-  const {
-    isLoading,
-    isError,
-    error,
-    data: weatherData,
-  } = useQuery('weather', () => getWeather(coords, 'imperial'), { staleTime: 60 * 1000 * 5 });
+  const {isLoading, isError, error, data: weatherData} = useQuery({
+    queryKey: ['weather', {coords, units}],
+    queryFn: () => getWeatherByCoords(coords, units),
+    staleTime: 60 * 1000 * 5, 
+    refetchOnWindowFocus: false,
+  });
 
   useEffect(() => {
     if (weatherData) {

@@ -7,6 +7,7 @@ import {
   PointElement,
   LineElement,
   Legend,
+  Filler,
   Tooltip,
   LineController,
   BarController,
@@ -15,6 +16,8 @@ import { Chart } from 'react-chartjs-2';
 import { useTheme } from '@mui/material/styles';
 import { Box, Paper, Typography } from '@mui/material';
 import WeatherIcon from './icons/WeatherIcon';
+import numeral from 'numeral';
+import { useUnits } from '../../context/UnitsContext';
 
 ChartJS.register(
   LinearScale,
@@ -23,51 +26,68 @@ ChartJS.register(
   PointElement,
   LineElement,
   Legend,
+  Filler,
   Tooltip,
   LineController,
   BarController,
 );
 
-export const options = {
-  responsive: true,
-  // maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      // position: 'bottom',
-      display: false
-    },
-  },
-  scales: {
-    temperature: {
-      type: 'linear',
-      position: 'left',
-      ticks: {
-        beginAtZero: true,
-        callback: function (value) {
-          return value + '°F'
-        }
-      },
-      grid: {
-        display: false
-      },
-      suggestedMin: 0
-    },
-    precipitation: {
-      type: 'linear',
-      position: 'right',
-      ticks: {
-        beginAtZero: true,
-        callback: function (value) {
-          return Math.round(value * 100) + '%'
-        }
-      },
-    }
-  }
-};
-
 const HourlyChart = ({ weather }) => {
   const [data, setData] = useState(null);
   const theme = useTheme();
+  const { units } = useUnits();
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        // position: 'bottom',
+        display: false
+      },
+    },
+    scales: {
+      temperature: {
+        type: 'linear',
+        position: 'left',
+        ticks: {
+          beginAtZero: true,
+          callback: function (value) {
+            return value + units.degrees;
+          }
+        },
+        grid: {
+          display: false
+        },
+        suggestedMin: 0
+      },
+      precipChance: {
+        type: 'linear',
+        position: 'right',
+        ticks: {
+          beginAtZero: true,
+          callback: function (value) {
+            return Math.round(value * 100) + '%'
+          }
+        },
+      },
+      precipAmount: {
+        type: 'linear',
+        position: 'right',
+        fill: 'origin',
+        ticks: {
+          beginAtZero: true,
+          callback: function (value) {
+            return numeral(value).format('0.00') + ' ' + units.volume
+          }
+        },
+        grid: {
+          display: false,
+        },
+        suggestedMin: 0
+      }
+    }
+  };
 
   useEffect(() => {
     if (weather && weather.minutely) {
@@ -82,14 +102,14 @@ const HourlyChart = ({ weather }) => {
         datasets: [
           {
             type: 'line',
-            label: 'Temperature (°F)',
+            label: `Temperature (${units.degrees})`,
             borderColor: theme.palette.error.main,
             borderWidth: 2,
             fill: false,
             data: weather.hourly
-              // .slice(0, 24)
               .map((item) => Math.round(item.temp)),
             yAxisID: 'temperature',
+            tension: .2,
           },
           {
             type: 'bar',
@@ -99,8 +119,22 @@ const HourlyChart = ({ weather }) => {
               .map((item) => item.pop),
             backgroundColor: theme.palette.primary.main,
             borderWidth: 1,
-            yAxisID: 'precipitation'
+            yAxisID: 'precipChance'
           },
+          {
+            type: 'line',
+            fill: true,
+            label: 'Precipitation Amount (in.)',
+            data: weather.hourly.map((item) => {
+              const snow = item.snow ? item.snow['1h'] || 0 : 0;
+              const rain = item.rain ? item.rain['1h'] || 0 : 0;
+              return snow + rain;
+            }),
+            borderColor: 'rgb(53, 162, 235)',
+            backgroundColor: 'rgb(53, 162, 235)',
+            yAxisID: 'precipAmount',
+            tension: 0.4,
+          }
         ],
       };
       setData(chartData);
@@ -109,16 +143,18 @@ const HourlyChart = ({ weather }) => {
 
   if (data) {
     return (
-      <Box sx={{ p: 2 }} height={'10rem'}>
-        <Typography variant='h5' >Hourly Forecast</Typography>
+      <Box sx={{ p: 2 }}>
+        <Typography variant='h5' >
+          Hourly Forecast
+        </Typography>
         <Box
           component={Paper}
           elevation={3}
           sx={{ my: 2, p: 1, overflowX: 'auto' }}
         >
-          {/* <Box sx={{ minWidth: '50rem', maxHeight: '15rem' }}> */}
-          <Chart data={data} options={options} width={'100%'} height={'50rem'} />
-          {/* </Box> */}
+          <Box sx={{ width: '88vw', minWidth: '120rem', maxHeight: '30rem' }}>
+            <Chart data={data} options={options} height={400} />
+          </Box>
         </Box>
       </Box>
     )

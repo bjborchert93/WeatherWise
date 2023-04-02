@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 const GeolocationContext = createContext({});
 
 export const GeolocationProvider = ({ children }) => {
-  const [ coords, setCoords ] = useState(() => {
+  const [coords, setCoords] = useState(() => {
     const storedCoords = localStorage.getItem('coords');
     return storedCoords ? JSON.parse(storedCoords) : null;
   });

@@ -9,6 +9,7 @@ import WeatherConditionsWidget from '../../widgets/WeatherConditionsWidget';
 import numeral from 'numeral';
 import { format } from 'date-fns';
 import HourlyChart from './HourlyChart';
+import { useUnits } from '../../context/UnitsContext';
 
 const CurrentWeather = ({ weather, location }) => {
   const theme = useTheme();
@@ -22,6 +23,7 @@ const CurrentWeather = ({ weather, location }) => {
   }
 
   const dateTime = format(new Date(), 'MMM d, h:mm b')
+  const { units } = useUnits();
 
   return (
     <>
@@ -66,7 +68,12 @@ const CurrentWeather = ({ weather, location }) => {
           >
             <Grid container spacing={1}>
               <Grid item xs={12} lg={6}>
-                <Typography variant='subtitle1'>Pressure: {weather.current.pressure}hPa</Typography>
+                <Typography variant='subtitle1'>
+                  {units.type === 'imperial'
+                    ? `Pressure: ${Math.round(weather.current.pressure * 0.02953 * 10) / 10} inHg`
+                    : `Pressure: ${Math.round(weather.current.pressure)} hPa`
+                  }
+                </Typography>
               </Grid>
               <Grid item xs={12} lg={6}>
                 <Typography variant='subtitle1'>Humidity: {weather.current.humidity}%</Typography>
@@ -75,7 +82,7 @@ const CurrentWeather = ({ weather, location }) => {
                 <Typography variant='subtitle1'>UV: {Math.round(weather.current.uvi)}</Typography>
               </Grid>
               <Grid item xs={12} lg={6}>
-                <Typography variant='subtitle1'>Dew Point: {Math.round(weather.current.dew_point)}°</Typography>
+                <Typography variant='subtitle1'>Dew Point: {Math.round(weather.current.dew_point) + units.degrees}</Typography>
               </Grid>
               <Grid item xs={12} lg={6}>
                 <Typography variant='subtitle1'>Visibility: {distanceInMeters(weather.current.visibility)}</Typography>

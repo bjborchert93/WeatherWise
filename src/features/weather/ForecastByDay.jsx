@@ -6,27 +6,30 @@ import WeatherIcon from './icons/WeatherIcon';
 import WindDirectionIcon from './icons/WindDirectionIcon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDroplet, faSnowflake, faGauge } from '@fortawesome/free-solid-svg-icons';
+import numeral from 'numeral';
+import { useUnits } from '../../context/UnitsContext';
 
 const ForecastByDay = ({ weather }) => {
   const theme = useTheme();
+  const { units } = useUnits();
+
   return (
     <Box sx={{ p: 2, width: '100%' }}>
+      <Typography variant='h5' sx={{ my: 2 }} >
+        8 Day Forecast
+      </Typography>
       <Card
         component={Paper}
         elevation={6}
       >
-        <Box >
-          <Typography variant='h5' fontWeight={600} sx={{ p: 3 }}>
-            8 Day Forecast
-          </Typography>
+        <Box>
           <Divider />
           {weather?.daily?.map((day, index) => {
             const { pop, rain, snow } = day;
-            const icon = rain
-              ? faDroplet
-              : snow
-                ? faSnowflake
-                : faDroplet
+            const accumulation = (rain / 25.4) + (snow / 25.4);
+            const icon = snow
+              ? faSnowflake
+              : faDroplet
             return (
               <Accordion key={index} defaultExpanded={index === 0}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />} >
@@ -37,20 +40,20 @@ const ForecastByDay = ({ weather }) => {
                       </Typography>
                     </Grid>
                     {/* <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'center', gap: '2rem' }}>
-                  <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <WeatherIcon size={2} icon={day.weather[0]?.icon} />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography variant='subtitle1'>
-                      {Math.floor(day.temp.max)}° / {Math.floor(day.temp.min)}°
-                    </Typography>
-                  </Grid>
-                </Grid>
-                <Grid item xs={4}>
-                  <Typography variant='subtitle1' align='right'>
-                    {day.weather[0]?.description}
-                  </Typography>
-                </Grid> */}
+                      <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <WeatherIcon size={2} icon={day.weather[0]?.icon} />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography variant='subtitle1'>
+                          {Math.floor(day.temp.max)}° / {Math.floor(day.temp.min)}°
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Typography variant='subtitle1' align='right'>
+                        {day.weather[0]?.description}
+                      </Typography>
+                    </Grid> */}
                   </Grid>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -60,7 +63,7 @@ const ForecastByDay = ({ weather }) => {
                       display: 'flex',
                       justifyContent: 'flex-start',
                       alignItems: 'center',
-                      gap: 2
+                      gap: 2,
                     }}
                   >
                     <Box sx={{ width: '20%' }}>
@@ -71,8 +74,8 @@ const ForecastByDay = ({ weather }) => {
                         {day.weather[0]?.description}
                       </Typography>
                       <Typography variant='subtitle2'>
-                        The high will be {Math.round(day.temp.max)}°F.
-                        The low will be {Math.round(day.temp.min)}°F.
+                        {`The high will be ${Math.round(day.temp.max)}${units.degrees}`}.
+                        {` The low will be ${Math.round(day.temp.min)}${units.degrees}`}.
                       </Typography>
                     </Box>
                   </Box>
@@ -97,7 +100,7 @@ const ForecastByDay = ({ weather }) => {
                       >
                         <FontAwesomeIcon icon={icon} />
                         <Typography variant='subtitle2'>
-                          {Math.round(pop * 100)}%
+                          {Math.round(pop * 100)}% / {numeral(accumulation).format('0.0') || 0} {units.volume}
                         </Typography>
                       </Grid>
                       <Grid item xs={6} sm={4} md={3}>
@@ -112,7 +115,10 @@ const ForecastByDay = ({ weather }) => {
                       >
                         <FontAwesomeIcon icon={faGauge} />
                         <Typography variant='subtitle2'>
-                          {Math.round(day.pressure)}hPa
+                          {units.type === 'imperial'
+                            ? `${Math.round(weather.current.pressure * 0.02953 * 10) / 10} inHg`
+                            : `${Math.round(weather.current.pressure)} hPa`
+                          }
                         </Typography>
                       </Grid>
                       <Grid item xs={6} sm={4} md={3}>
@@ -122,7 +128,7 @@ const ForecastByDay = ({ weather }) => {
                         UV Index: {Math.round(day.uvi)}
                       </Grid>
                       <Grid item xs={6} sm={4} md={3}>
-                        Dew Point: {Math.round(day.dew_point)}°F
+                        Dew Point: {Math.round(day.dew_point)} {units.degrees}
                       </Grid>
                       <Grid item xs={6} sm={4} md={3}>
                         Sunrise: {new Date(day.sunrise * 1000)
@@ -140,25 +146,25 @@ const ForecastByDay = ({ weather }) => {
                       sx={{ p: 2, display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}
                     >
                       <Typography variant='h6' sx={{ pb: 3 }}>Morning</Typography>
-                      <Typography variant='h4'>{Math.round(day.temp.morn)}°F</Typography>
+                      <Typography variant='h4'>{Math.round(day.temp.morn)}{units.degrees}</Typography>
                     </Grid>
                     <Grid item xs={6} md={3}
                       sx={{ p: 2, display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}
                     >
                       <Typography variant='h6' sx={{ pb: 3 }}>Afternoon</Typography>
-                      <Typography variant='h4'>{Math.round(day.temp.day)}°F</Typography>
+                      <Typography variant='h4'>{Math.round(day.temp.day)}{units.degrees}</Typography>
                     </Grid>
                     <Grid item xs={6} md={3}
                       sx={{ p: 2, display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}
                     >
                       <Typography variant='h6' sx={{ pb: 3 }}>Evening</Typography>
-                      <Typography variant='h4'>{Math.round(day.temp.eve)}°F</Typography>
+                      <Typography variant='h4'>{Math.round(day.temp.eve)}{units.degrees}</Typography>
                     </Grid>
                     <Grid item xs={6} md={3}
                       sx={{ p: 2, display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}
                     >
                       <Typography variant='h6' sx={{ pb: 3 }}>Night</Typography>
-                      <Typography variant='h4'>{Math.round(day.temp.night)}°F</Typography>
+                      <Typography variant='h4'>{Math.round(day.temp.night)}{units.degrees}</Typography>
                     </Grid>
                   </Grid>
                 </AccordionDetails>

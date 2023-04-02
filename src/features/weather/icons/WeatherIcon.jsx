@@ -1,4 +1,4 @@
-import { Box, Card, Paper } from '@mui/material'
+import { Box, Card, Paper, SvgIcon } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faCloud, faCloudSun, faCloudShowersHeavy, faSnowflake, faMoon, faCloudMoon, faCloudMoonRain, faBolt, faWind } from '@fortawesome/free-solid-svg-icons';
 
@@ -32,6 +32,14 @@ function WeatherIcon({ icon, size }) {
       <FontAwesomeIcon icon={selectedIcon} size={`${size}x`} />
     </Box>
   )
+  
+  // const iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`
+
+  // return (
+  //   <Box>
+  //     <img src={iconUrl} />
+  //   </Box>
+  // )
 }
 
 export default WeatherIcon;

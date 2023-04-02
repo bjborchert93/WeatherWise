@@ -21,7 +21,7 @@ const AlertsWidget = ({ weather }) => {
             >
               <WarningIcon color={theme.palette.error.main} sx={{ mr: 1 }} />
               <Typography variant='h6' fontWeight={600} color={theme.palette.error.main}>
-                Alert! - {alert.event}
+                {alert.event}
               </Typography>
             </AccordionSummary>
             <AccordionDetails>

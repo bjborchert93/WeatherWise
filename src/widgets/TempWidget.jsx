@@ -1,9 +1,11 @@
 import { Box, Paper, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { useUnits } from '../context/UnitsContext';
 
 const TempWidget = ({ weather }) => {
   const theme = useTheme();
-
+  const { units } = useUnits();
+  
   return (
     <Box
       component={Paper}
@@ -29,7 +31,7 @@ const TempWidget = ({ weather }) => {
         {Math.round(weather.current.temp)}°
       </Typography>
       <Typography variant='subtitle2' fontStyle='italic'>
-        Feels like {Math.round(weather.current.feels_like)}°
+        Feels like {Math.round(weather.current.feels_like) + units.degrees}
       </Typography>
     </Box>
   )

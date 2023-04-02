@@ -7,7 +7,7 @@ export const lightTheme = createTheme({
       main: '#3f51b5',
     },
     secondary: {
-      main: '#f50057',
+      main: '#fefefe',
     },
     background: {
       default: `linear-gradient(45deg, ${colors.lightBlue[100]}, ${colors.lightBlue[300]}`,
@@ -31,7 +31,7 @@ export const darkTheme = createTheme({
       main: '#3f51b5',
     },
     secondary: {
-      main: '#f50057',
+      main: '#fefefe',
     },
     text: {
       primary: colors.grey[100]
