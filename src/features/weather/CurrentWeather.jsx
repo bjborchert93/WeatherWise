@@ -35,7 +35,7 @@ const CurrentWeather = () => {
         <Box sx={{ p: 2 }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 2 }}>
             <Typography variant='h5' color={theme.palette.primary.main}>
-              {location.name}, {location.country}
+              {location.name}, {location.state}, {location.country}
             </Typography>
             <Typography variant='subtitle1' color={grey[500]}>
               {numeral(location.lat).format('0.00')}° N, {numeral(location.lon).format('0.00')}° W

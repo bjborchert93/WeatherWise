@@ -8,15 +8,17 @@ export const WeatherDataProvider = ({ children }) => {
     return storedWeather ? JSON.parse(storedWeather) : null;
   });
 
+  console.log(weatherData)
+
   useEffect(() => {
     if (weatherData) {
       localStorage.setItem('weatherData', JSON.stringify(weatherData));
     }
   }, [weatherData]);
 
-  const updateWeatherData = (newData) => {
-    setWeatherData(newData);
-  }
+  // const updateWeatherData = (newData) => {
+  //   setWeatherData(newData);
+  // }
 
   return (
     <WeatherDataContext.Provider value={{ weatherData, setWeatherData }}>

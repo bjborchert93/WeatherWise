@@ -13,6 +13,8 @@ import Welcome from './Welcome';
 import WeatherHome from './features/weather/WeatherHome';
 import { UnitsProvider } from './context/UnitsContext';
 import { WeatherDataProvider } from './context/WeatherDataContext';
+import HourlyForecast from './features/weather/HourlyChart';
+import DailyForecast from './features/weather/DailyForecast';
 
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -25,9 +27,11 @@ function App() {
           <CssBaseline />
           <Routes>
             <Route path='/' element={<Layout />} >
-              <Route path='/dash' element={<DashLayout />} >
+              <Route path='/weather' element={<DashLayout />} >
                 <Route index element={<Welcome />} />
-                <Route path='/dash/current' element={<WeatherHome />} />
+                <Route path='/weather/minutely' element={<WeatherHome />} />
+                <Route path='/weather/hourly' element={<HourlyForecast />} />
+                <Route path='/weather/daily' element={<DailyForecast/>} />
               </Route>
             </Route>
           </Routes>

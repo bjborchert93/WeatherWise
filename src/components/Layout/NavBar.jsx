@@ -48,23 +48,22 @@ const DrawerLinks = styled('div')(({ theme }) => ({
 	padding: theme.spacing(2),
 }));
 
-const menuItems = [
-	{ text: 'Current', icon: <WbSunnyIcon />, link: '/dash/current' },
-	{ text: 'Hourly', icon: <AccessTime />, link: 'dash/hourly' },
-	{ text: '8-Day Forecast', icon: <CalendarMonthIcon />, link: 'dash/forecast' },
-	{ text: 'Settings', icon: <SettingsIcon />, link: 'dash/settings' }
-]
+// const menuItems = [
+// 	{ text: 'Current', icon: <WbSunnyIcon />, link: '/weather/current' },
+// 	{ text: 'Hourly', icon: <AccessTime />, link: '/weather/hourly' },
+// 	{ text: '8-Day Forecast', icon: <CalendarMonthIcon />, link: '/weather/forecast' }
+// ]
 
 const NavBar = () => {
 	const { setWeatherData } = useWeatherData();
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	const [searchCriteria, setSearchCriteria] = useState('');
 	const [locationName, setLocationName] = useState('');
-	const [method, setMethod] = useState('locationName');
+	const [method, setMethod] = useState('coords');
 	const coords = useGeolocation();
 
 	const theme = useTheme();
-	const { units, toggleUnits } = useUnits();
+	const { units } = useUnits();
 
 	const { isLoading, isError, error, data } = useQuery({
 		queryKey: ['weatherData', { method, locationName, units }],
@@ -140,7 +139,7 @@ const NavBar = () => {
 					>
 						<MyLocationIcon color='secondary' />
 					</IconButton>
-					<NavLinks>
+					{/* <NavLinks>
 						<List sx={{ display: 'flex' }}>
 							{menuItems.map((item, key) => (
 								<ListItemButton component={Link} to={item.link} key={key}>
@@ -148,8 +147,8 @@ const NavBar = () => {
 								</ListItemButton>
 							))}
 						</List>
-					</NavLinks>
-					<IconButton
+					</NavLinks> */}
+					{/* <IconButton
 						size="large"
 						edge="end"
 						color="inherit"
@@ -158,8 +157,8 @@ const NavBar = () => {
 						onClick={toggleDrawer}
 					>
 						<MenuIcon />
-					</IconButton>
-					<FormControl size='small'>
+					</IconButton> */}
+					{/* <FormControl size='small'>
 						<InputLabel>Units</InputLabel>
 						<Select
 							value={units.type}
@@ -169,10 +168,10 @@ const NavBar = () => {
 							<MenuItem value='imperial'>Imperial (°F / mph)</MenuItem>
 							<MenuItem value='metric'>Metric (°C / m/s)</MenuItem>
 						</Select>
-					</FormControl>
+					</FormControl> */}
 				</Toolbar>
 			</AppBar>
-			<Drawer anchor="right" open={isDrawerOpen} onClose={toggleDrawer}>
+			{/* <Drawer anchor="right" open={isDrawerOpen} onClose={toggleDrawer}>
 				<DrawerLinks>
 					<List>
 						{menuItems.map((item, key) => (
@@ -185,7 +184,7 @@ const NavBar = () => {
 						))}
 					</List>
 				</DrawerLinks>
-			</Drawer>
+			</Drawer> */}
 		</>
 	);
 };

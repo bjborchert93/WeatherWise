@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useWeatherData } from '../context/WeatherDataContext';
 
 const weatherApi = axios.create({
   baseURL: 'http://localhost:8000/weather',
@@ -18,6 +17,7 @@ export const getWeatherByCoords = async (coords, units) => {
 
 export const getWeatherByLocationName = async (location, units) => {
   console.log(location, units)
+  if (!location) return null;
   const response = await weatherApi.get(`/${location}`, {
     params: {
       units: JSON.stringify(units)

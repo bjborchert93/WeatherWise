@@ -9,7 +9,7 @@ const Welcome = () => {
         ? <p>Loading...</p>
         : <p>{`Your coordinates are ${coords.latitude}, ${coords.longitude}`}</p>
       }
-      <Link to='/dash/current' >Get Current Weather</Link>
+      <Link to='/weather/current' >Get Current Weather</Link>
     </>
   )
 }

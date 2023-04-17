@@ -10,8 +10,8 @@ export const lightTheme = createTheme({
       main: '#fefefe',
     },
     background: {
-      default: `linear-gradient(45deg, ${colors.lightBlue[100]}, ${colors.lightBlue[300]}`,
-      // default: colors.grey[100],
+      // default: `linear-gradient(45deg, ${colors.lightBlue[100]}, ${colors.lightBlue[300]}`,
+      default: colors.grey[100],
       paper: colors.common.white,
     },
   },

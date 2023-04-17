@@ -3,10 +3,8 @@ import { useWeatherData } from '../../context/WeatherDataContext';
 import { Box, Grid } from '@mui/material';
 
 import CurrentWeather from './CurrentWeather';
-import ForecastByDay from './ForecastByDay';
-import HourlyChart from './HourlyChart';
+import DailyForecast from './DailyForecast';
 import AlertsWidget from '../../widgets/AlertsWidget';
-import HourlyDetails from './HourlyDetails';
 
 const WeatherHome = () => {
   const { weatherData } = useWeatherData();
@@ -23,14 +21,14 @@ const WeatherHome = () => {
           <Grid item sm={12} md={5}>
             <CurrentWeather />
           </Grid>
-          <Grid item sm={12} md={7}>
+          {/* <Grid item sm={12} md={7}>
             <HourlyChart />
           </Grid>
           <Grid item sm={12}>
             <HourlyDetails />
-          </Grid>
+          </Grid> */}
           <Grid item sm={12}>
-            <ForecastByDay />
+            <DailyForecast />
           </Grid>
         </Grid>
         : null}

@@ -10,8 +10,8 @@ import numeral from 'numeral';
 import { useUnits } from '../../context/UnitsContext';
 import { useWeatherData } from '../../context/WeatherDataContext';
 
-const ForecastByDay = () => {
-  const theme = useTheme();
+const DailyForecast = () => {
+  // const theme = useTheme();
   const { units } = useUnits();
   const { weatherData } = useWeatherData();
   const weather = weatherData.weather;
@@ -26,7 +26,6 @@ const ForecastByDay = () => {
         elevation={6}
       >
         <Box>
-          <Divider />
           {weather?.daily?.map((day, index) => {
             const { pop, rain, snow } = day;
             const accumulation = (rain / 25.4) + (snow / 25.4);
@@ -181,4 +180,4 @@ const ForecastByDay = () => {
   )
 }
 
-export default ForecastByDay
+export default DailyForecast
